@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './IceCreamFlavour.css';
+import classes from './IceCreamFlavor.css';
 
-const iceCreamFlavour = props => {
+const iceCreamFlavor = props => {
   let flavor = null;
 
   switch (props.type) {
@@ -41,4 +41,4 @@ const iceCreamFlavour = props => {
   return flavor;
 }
 
-export default iceCreamFlavour;
+export default iceCreamFlavor;
