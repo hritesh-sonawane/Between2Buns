@@ -3,13 +3,16 @@ import classes from './IceCream.css';
 import IceCreamFlavor from './IceCreamFlavor/IceCreamFlavor';
 
 const iceCream = props => {
+  const transformedFlavors = Object.keys(props.flavors)
+      .map(flvKey => {
+        return [...Array(props.flavors[flvKey])].map((_, i) => {
+          return <IceCreamFlavor key={flvKey + i} type={flvKey} />
+        });
+      });
   return (
     <div className={classes.IceCream}>
-      <IceCreamFlavor type="choco-chip" />
-      <IceCreamFlavor type="grape" />
-      <IceCreamFlavor type="unicorn" />
-      <IceCreamFlavor type="black-current" />
-      <IceCreamFlavor type="strawberry" />
+      <IceCreamFlavor type="chocochip" />
+      {transformedFlavors}
       <IceCreamFlavor type="cup" />
     </div>
   );
