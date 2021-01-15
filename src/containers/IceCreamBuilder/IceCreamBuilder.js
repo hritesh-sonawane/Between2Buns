@@ -10,10 +10,10 @@ class IceCreamBuilder extends Component {
 
   state = {
     flavors: {
-      grape: 1,
-      unicorn: 2,
-      blackcurrent: 1,
-      strawberry: 2
+      grape: 0,
+      unicorn: 0,
+      blackcurrent: 0,
+      strawberry: 0
     }
   }
   render() {
