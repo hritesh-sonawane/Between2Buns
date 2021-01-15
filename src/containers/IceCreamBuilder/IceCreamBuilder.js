@@ -43,15 +43,38 @@ class IceCreamBuilder extends Component {
   }
 
   removeFlavorHandler = type => {
-
+    const oldCount = this.state.flavors[type];
+    if (oldCount <= 0) {
+      return;
+    }
+    const updatedCount = oldCount - 1;
+    const updatedFlavors = {
+        ...this.state.flavors
+    }
+    updatedFlavors[type] = updatedCount;
+    const priceDeduction = FLAVOR_PRICES[type];
+    const oldPrice = this.state.totalPrice;
+    const newPrice= oldPrice - priceDeduction;
+    this.setState({
+      totalPrice: newPrice,
+      flavors: updatedFlavors
+    })
   }
 
   render() {
+    const disableInfo = {
+      ...this.state.flavors
+    }
+    for (let key in disableInfo) {
+      disableInfo[key] = disableInfo[key] <= 0
+    }
     return (
       <Aux>
         <IceCream flavors={this.state.flavors} />
         <BuildControls
           flavorAdded={this.addFlavorHandler}
+          flavorRemoved={this.removeFlavorHandler}
+          disabled={disableInfo}
         />
       </Aux>
     );
