@@ -23,7 +23,19 @@ class IceCreamBuilder extends Component {
       blackcurrent: 0,
       strawberry: 0
     },
-    totalPrice: 20
+    totalPrice: 20,
+    purchasable: false
+  }
+
+  updatePurchaseState(flavors) {
+    const sum = Object.keys(flavors)
+      .map(flvKey => {
+        return flavors[flvKey];
+      })
+      .reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+    this.setState({ purchasable: sum > 0 });
   }
 
   addFlavorHandler = type => {
@@ -39,7 +51,8 @@ class IceCreamBuilder extends Component {
     this.setState({
       totalPrice: newPrice,
       flavors: updatedFlavors
-    })
+    });
+    this.updatePurchaseState(updatedFlavors);
   }
 
   removeFlavorHandler = type => {
@@ -58,7 +71,8 @@ class IceCreamBuilder extends Component {
     this.setState({
       totalPrice: newPrice,
       flavors: updatedFlavors
-    })
+    });
+    this.updatePurchaseState(updatedFlavors);
   }
 
   render() {
@@ -76,6 +90,7 @@ class IceCreamBuilder extends Component {
           flavorRemoved={this.removeFlavorHandler}
           disabled={disableInfo}
           price={this.state.totalPrice}
+          purchasable={this.state.purchasable}
         />
       </Aux>
     );
