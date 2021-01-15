@@ -24,16 +24,16 @@ class IceCreamFlavor extends Component {
         flavor = <div className={classes.Grape}></div>;
         break;
 
-      case ('strawberry'):
-        flavor = <div className={classes.Strawberry}></div>;
-        break;
-
       case ('unicorn'):
         flavor = <div className={classes.Unicorn}></div>;
         break;
 
       case ('blackcurrent'):
         flavor = <div className={classes.BlackCurrent}></div>;
+        break;
+      
+      case ('strawberry'):
+        flavor = <div className={classes.Strawberry}></div>;
         break;
 
       default:

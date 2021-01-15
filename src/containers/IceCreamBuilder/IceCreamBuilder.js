@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import IceCream from '../../components/IceCream/IceCream';
+import BuildControls from '../../components/IceCream/BuildControls/BuildControls';
 
 class IceCreamBuilder extends Component {
   // constructor(props) {
@@ -10,17 +11,17 @@ class IceCreamBuilder extends Component {
 
   state = {
     flavors: {
-      grape: 0,
-      unicorn: 0,
-      blackcurrent: 0,
-      strawberry: 0
+      grape: 1,
+      unicorn: 1,
+      blackcurrent: 1,
+      strawberry: 1
     }
   }
   render() {
     return (
       <Aux>
         <IceCream flavors={this.state.flavors} />
-        <div>Build Controls</div>
+        <BuildControls />
       </Aux>
     );
   }
