@@ -18,12 +18,12 @@ class IceCreamBuilder extends Component {
 
   state = {
     flavors: {
-      grape: 1,
-      unicorn: 1,
-      blackcurrent: 1,
-      strawberry: 1
+      grape: 0,
+      unicorn: 0,
+      blackcurrent: 0,
+      strawberry: 0
     },
-    totalPrice: 30
+    totalPrice: 20
   }
 
   addFlavorHandler = type => {
@@ -75,6 +75,7 @@ class IceCreamBuilder extends Component {
           flavorAdded={this.addFlavorHandler}
           flavorRemoved={this.removeFlavorHandler}
           disabled={disableInfo}
+          price={this.state.totalPrice}
         />
       </Aux>
     );
