@@ -26,7 +26,8 @@ class IceCreamBuilder extends Component {
       strawberry: 0
     },
     totalPrice: 20,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
   }
 
   updatePurchaseState(flavors) {
@@ -77,6 +78,10 @@ class IceCreamBuilder extends Component {
     this.updatePurchaseState(updatedFlavors);
   }
 
+  purchaseHandler = () => {
+    this.setState({ purchasing: true });
+  }
+
   render() {
     const disableInfo = {
       ...this.state.flavors
@@ -86,7 +91,7 @@ class IceCreamBuilder extends Component {
     }
     return (
       <Aux>
-        <Modal>
+        <Modal show={this.state.purchasing}>
           <OrderSummary flavors={this.state.flavors} />
         </Modal>
         <IceCream flavors={this.state.flavors} />
@@ -96,6 +101,7 @@ class IceCreamBuilder extends Component {
           disabled={disableInfo}
           price={this.state.totalPrice}
           purchasable={this.state.purchasable}
+          ordered={this.purchaseHandler}
         />
       </Aux>
     );
