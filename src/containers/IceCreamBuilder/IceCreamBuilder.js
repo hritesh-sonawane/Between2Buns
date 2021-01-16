@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import IceCream from '../../components/IceCream/IceCream';
 import BuildControls from '../../components/IceCream/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/IceCream/OrderSummary/OrderSummary';
 
 const FLAVOR_PRICES = {
   grape: 20,
@@ -84,6 +86,9 @@ class IceCreamBuilder extends Component {
     }
     return (
       <Aux>
+        <Modal>
+          <OrderSummary flavors={this.state.flavors} />
+        </Modal>
         <IceCream flavors={this.state.flavors} />
         <BuildControls
           flavorAdded={this.addFlavorHandler}
