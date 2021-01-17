@@ -86,6 +86,10 @@ class IceCreamBuilder extends Component {
     this.setState({ purchasing: false });
   }
 
+  purchaseContinueHandler = () => {
+    alert('You continue!');
+  }
+
   render() {
     const disableInfo = {
       ...this.state.flavors
@@ -96,7 +100,11 @@ class IceCreamBuilder extends Component {
     return (
       <Aux>
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-          <OrderSummary flavors={this.state.flavors} />
+          <OrderSummary 
+            flavors={this.state.flavors}
+            purchaseCancelled={this.purchaseCancelHandler}
+            purchaseContinued={this.purchaseContinueHandler}
+          />
         </Modal>
         <IceCream flavors={this.state.flavors} />
         <BuildControls
