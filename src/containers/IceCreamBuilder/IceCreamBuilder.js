@@ -82,6 +82,10 @@ class IceCreamBuilder extends Component {
     this.setState({ purchasing: true });
   }
 
+  purchaseCancelHandler = () => {
+    this.setState({ purchasing: false });
+  }
+
   render() {
     const disableInfo = {
       ...this.state.flavors
@@ -91,7 +95,7 @@ class IceCreamBuilder extends Component {
     }
     return (
       <Aux>
-        <Modal show={this.state.purchasing}>
+        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
           <OrderSummary flavors={this.state.flavors} />
         </Modal>
         <IceCream flavors={this.state.flavors} />
