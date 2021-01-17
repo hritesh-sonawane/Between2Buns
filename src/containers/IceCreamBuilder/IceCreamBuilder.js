@@ -104,6 +104,7 @@ class IceCreamBuilder extends Component {
             flavors={this.state.flavors}
             purchaseCancelled={this.purchaseCancelHandler}
             purchaseContinued={this.purchaseContinueHandler}
+            price={this.state.totalPrice}
           />
         </Modal>
         <IceCream flavors={this.state.flavors} />
