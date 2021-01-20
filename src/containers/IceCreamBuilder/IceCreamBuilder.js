@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Auxiliary';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 import IceCream from '../../components/IceCream/IceCream';
 import BuildControls from '../../components/IceCream/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
