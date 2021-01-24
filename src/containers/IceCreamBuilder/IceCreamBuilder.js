@@ -5,6 +5,7 @@ import BuildControls from '../../components/IceCream/BuildControls/BuildControls
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/IceCream/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const FLAVOR_PRICES = {
   grape: 20,
@@ -28,7 +29,8 @@ class IceCreamBuilder extends Component {
     },
     totalPrice: 20,
     purchasable: false,
-    purchasing: false
+    purchasing: false,
+    loading: false,
   }
 
   updatePurchaseState(flavors) {
@@ -84,11 +86,12 @@ class IceCreamBuilder extends Component {
   }
 
   purchaseCancelHandler = () => {
-    this.setState({ purchasing: false });
+    this.setState({ purchasing: false});
   }
 
   purchaseContinueHandler = () => {
     // alert('You continue!');
+    this.setState({ loading: true });
     const order = {
       ingredients: this.state.ingredients,
       price: this.state.totalPrice,
@@ -103,9 +106,13 @@ class IceCreamBuilder extends Component {
       },
       deliveryMethod: 'fastest'
     }
-    axios.post('/orders.json', order)
-      .then(response => console.log(response))
-      .catch(error => console.log(error));   // for firebase it's xyz.json
+    axios.post('/orders.json', order)   // for firebase it's xyz.json
+      .then(response => {
+        this.setState({ loading: false, purchasing: false});
+      })
+      .catch(error => {
+        this.setState({ loading: false, purchasing: false});
+      });
   }
 
   render() {
@@ -115,15 +122,21 @@ class IceCreamBuilder extends Component {
     for (let key in disableInfo) {
       disableInfo[key] = disableInfo[key] <= 0
     }
+
+    let orderSummary = <OrderSummary 
+        flavors={this.state.flavors}
+        purchaseCancelled={this.purchaseCancelHandler}
+        purchaseContinued={this.purchaseContinueHandler}
+        price={this.state.totalPrice}
+      />
+    if(this.state.loading) {
+      orderSummary = <Spinner />;
+    }
+
     return (
       <Aux>
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
-          <OrderSummary 
-            flavors={this.state.flavors}
-            purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinued={this.purchaseContinueHandler}
-            price={this.state.totalPrice}
-          />
+          {orderSummary}
         </Modal>
         <IceCream flavors={this.state.flavors} />
         <BuildControls
