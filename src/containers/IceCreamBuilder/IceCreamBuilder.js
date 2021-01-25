@@ -6,6 +6,7 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/IceCream/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const FLAVOR_PRICES = {
   grape: 20,
@@ -152,4 +153,4 @@ class IceCreamBuilder extends Component {
   }
 }
 
-export default IceCreamBuilder;
+export default withErrorHandler(IceCreamBuilder, axios);
