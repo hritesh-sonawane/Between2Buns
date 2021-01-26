@@ -22,16 +22,22 @@ class IceCreamBuilder extends Component {
   // }
 
   state = {
-    flavors: {
-      grape: 0,
-      unicorn: 0,
-      blackcurrent: 0,
-      strawberry: 0
-    },
+    flavors: null,
     totalPrice: 20,
     purchasable: false,
     purchasing: false,
     loading: false,
+    error: false
+  }
+
+  componentDidMount() {
+    axios.get('https://what-the-scoop-default-rtdb.firebaseio.com/flavors.json')
+      .then(response => {
+        this.setState({flavors: response.data});
+      })
+      .catch(error => {
+        this.setState({error: true});
+      });
   }
 
   updatePurchaseState(flavors) {
@@ -124,12 +130,30 @@ class IceCreamBuilder extends Component {
       disableInfo[key] = disableInfo[key] <= 0
     }
 
-    let orderSummary = <OrderSummary 
+    let orderSummary = null;
+    let icecream = this.state.error ? <p>Flavors couldn't be loaded!</p> : <Spinner />
+
+    if(this.state.flavors) {
+      icecream  = (
+        <Aux>
+          <IceCream flavors={this.state.flavors} />
+          <BuildControls
+            flavorAdded={this.addFlavorHandler}
+            flavorRemoved={this.removeFlavorHandler}
+            disabled={disableInfo}
+            price={this.state.totalPrice}
+            purchasable={this.state.purchasable}
+            ordered={this.purchaseHandler}
+          />
+        </Aux>
+      );
+      orderSummary = <OrderSummary 
         flavors={this.state.flavors}
         purchaseCancelled={this.purchaseCancelHandler}
         purchaseContinued={this.purchaseContinueHandler}
         price={this.state.totalPrice}
       />
+    }
     if(this.state.loading) {
       orderSummary = <Spinner />;
     }
@@ -139,15 +163,7 @@ class IceCreamBuilder extends Component {
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
           {orderSummary}
         </Modal>
-        <IceCream flavors={this.state.flavors} />
-        <BuildControls
-          flavorAdded={this.addFlavorHandler}
-          flavorRemoved={this.removeFlavorHandler}
-          disabled={disableInfo}
-          price={this.state.totalPrice}
-          purchasable={this.state.purchasable}
-          ordered={this.purchaseHandler}
-        />
+        {icecream}
       </Aux>
     );
   }
