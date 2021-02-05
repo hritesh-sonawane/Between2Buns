@@ -12,7 +12,7 @@ class App extends Component {
           <Switch>
             <Route path="/checkout" component={Checkout} />
             <Route path="/" exact component={IceCreamBuilder} />
-            </Switch>
+          </Switch>
         </Layout>
       </div>
     );

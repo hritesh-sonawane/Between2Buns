@@ -3,6 +3,7 @@ import classes from './IceCream.css';
 import IceCreamFlavor from './IceCreamFlavor/IceCreamFlavor';
 
 const iceCream = props => {
+  console.log(props);
   let transformedFlavors = Object.keys(props.flavors)
       .map(flvKey => {
         return [...Array(props.flavors[flvKey])].map((_, i) => {
