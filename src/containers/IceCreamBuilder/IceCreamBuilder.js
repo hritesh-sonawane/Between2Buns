@@ -121,7 +121,15 @@ class IceCreamBuilder extends Component {
     //   .catch(error => {
     //     this.setState({ loading: false, purchasing: false});
     //   });
-    this.props.history.push('/checkout');
+    const queryParams = [];
+    for(let i in this.state.flavors) {
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.flavors[i]));
+    }
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryString
+    });
   }
 
   render() {
