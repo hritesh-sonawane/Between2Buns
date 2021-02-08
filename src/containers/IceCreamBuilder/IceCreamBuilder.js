@@ -98,33 +98,13 @@ class IceCreamBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    // // alert('You continue!');
-    // this.setState({ loading: true });
-    // const order = {
-    //   ingredients: this.state.ingredients,
-    //   price: this.state.totalPrice,
-    //   customer: {
-    //     name: 'Sasuke',
-    //     address: {
-    //       street: '221B',
-    //       zipCode: '111222',
-    //       country: 'Hidden Leaf'
-    //     },
-    //     email: 'sasuke@test.com'
-    //   },
-    //   deliveryMethod: 'fastest'
-    // }
-    // axios.post('/orders.json', order)   // for firebase it's xyz.json
-    //   .then(response => {
-    //     this.setState({ loading: false, purchasing: false});
-    //   })
-    //   .catch(error => {
-    //     this.setState({ loading: false, purchasing: false});
-    //   });
+    // alert('You continue!');
     const queryParams = [];
     for(let i in this.state.flavors) {
       queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.flavors[i]));
     }
+    queryParams.push('price=' + this.state.totalPrice);
+    
     const queryString = queryParams.join('&');
     this.props.history.push({
       pathname: '/checkout',
