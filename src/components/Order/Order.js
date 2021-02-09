@@ -13,13 +13,6 @@ const order = props => {
 
   const flavorOutput = flavors.map(flv => {
     return  <span className={classes.FlavorBox}
-              // style={{
-              //   textTransform: 'capitalize',
-              //   display: 'inline-block',
-              //   margin: '0 8px',
-              //   border: '1px solid #ccc',
-              //   padding: '5px'
-              // }}
               key={flv.name}>{flv.name} ({flv.amount})
             </span>;
   })
