@@ -84,6 +84,7 @@ class ContactData extends Component {
             ] 
           },
           value: '',
+          validation: {},   // not req, but req to avoid looping error
           valid: true   // not req, but req to avoid looping error 
         }
     },
