@@ -5,9 +5,9 @@ Let us build an Ice Cream App
 ```
 
 ```
-Current: Forms & Validation
+Current: Redux
 ```
 
 ```
-Up next: Redux?
+Up next: Authentication?
 ```
