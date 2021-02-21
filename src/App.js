@@ -5,6 +5,7 @@ import Checkout from './containers/Checkout/Checkout';
 import { Route, Switch } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
 
+// The structure/architecture of the application
 class App extends Component {
   render() {
     return (
