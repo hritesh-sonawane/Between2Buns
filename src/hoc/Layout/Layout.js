@@ -4,6 +4,9 @@ import classes from './Layout.css';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 
+// Layout has the Toolbar & SideDrawer
+// SideDrawer is toggled on/off depending on screen size
+
 class Layout extends Component {
   state = {
       showSideDrawer: false
