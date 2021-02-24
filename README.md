@@ -5,9 +5,9 @@ Let us build an Ice Cream App
 ```
 
 ```
-Current: Redux
+Current: Reviews
 ```
 
 ```
-Up next: Authentication?
+Up next: Redux & Authentication?
 ```
