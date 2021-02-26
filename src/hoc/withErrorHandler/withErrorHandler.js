@@ -10,6 +10,7 @@ const withErrorHandler = (WrappedComponent, axios) => {
       error: null
     }
     // hook not recommended
+    //componentWillMount: last function to be called immediately before the component is removed from the DOM
     componentWillMount() {
       this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null});
