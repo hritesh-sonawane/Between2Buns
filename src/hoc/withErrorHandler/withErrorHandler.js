@@ -1,16 +1,19 @@
-import React, { Component }from 'react';
+import React, { Component } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Auxiliary/Auxiliary';
 // import axios from 'axios';
 
+
+// The higher-order component receives a WrappedComponent as an argument.
+// Then it returns new component with props passed to it creating a React element.
 const withErrorHandler = (WrappedComponent, axios) => {
   return class extends Component {
-
     state = {
       error: null
     }
+
     // hook not recommended
-    //componentWillMount: last function to be called immediately before the component is removed from the DOM
+    // componentWillMount: last function to be called immediately before the component is removed from the DOM
     componentWillMount() {
       this.reqInterceptor = axios.interceptors.request.use(req => {
         this.setState({error: null});
