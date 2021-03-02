@@ -9,6 +9,7 @@ class Checkout extends Component {
     price: 0
   }
 
+  // URLSearchParams API provide a way to get the data in the URL query parameters
   componentWillMount() {
     const query = new URLSearchParams(this.props.location.search);
     const flavors = {};
@@ -43,10 +44,10 @@ class Checkout extends Component {
         <Route 
           path={this.props.match.path + '/contact-data'}
           render={(props) => (<ContactData 
-                                  flavors={this.state.flavors}
-                                  price={this.state.totalPrice}
-                                  {...props}
-                              />)
+              flavors={this.state.flavors}
+              price={this.state.totalPrice}
+              {...props}
+            />)
           }
         />
       </div>
