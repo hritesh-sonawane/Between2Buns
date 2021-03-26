@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
-import IceCream from '../../components/IceCream/IceCream';
-import BuildControls from '../../components/IceCream/BuildControls/BuildControls';
-import Modal from '../../components/UI/Modal/Modal';
-import OrderSummary from '../../components/IceCream/OrderSummary/OrderSummary';
-import axios from '../../axios-orders';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import React, { Component } from "react";
+import Aux from "../../hoc/Auxiliary/Auxiliary";
+import IceCream from "../../components/IceCream/IceCream";
+import BuildControls from "../../components/IceCream/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/IceCream/OrderSummary/OrderSummary";
+import axios from "../../axios-orders";
+import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
 const FLAVOR_PRICES = {
   grape: 20,
   unicorn: 20,
   blackcurrent: 15,
-  strawberry: 15
-}
+  strawberry: 15,
+};
 
 class IceCreamBuilder extends Component {
   // constructor(props) {
@@ -27,23 +27,23 @@ class IceCreamBuilder extends Component {
     purchasable: false,
     purchasing: false,
     loading: false,
-    error: false
-  }
+    error: false,
+  };
 
   componentDidMount() {
     console.log(this.props);
-    axios.get('https://what-the-scoop-default-rtdb.firebaseio.com/flavors.json')
-      .then(response => {
-        this.setState({flavors: response.data});
-      })
-      .catch(error => {
-        this.setState({error: true});
-      });
+    // axios.get('https://what-the-scoop-default-rtdb.firebaseio.com/flavors.json')
+    //   .then(response => {
+    //     this.setState({flavors: response.data});
+    //   })
+    //   .catch(error => {
+    //     this.setState({error: true});
+    //   });
   }
 
   updatePurchaseState(flavors) {
     const sum = Object.keys(flavors)
-      .map(flvKey => {
+      .map((flvKey) => {
         return flavors[flvKey];
       })
       .reduce((sum, el) => {
@@ -52,79 +52,85 @@ class IceCreamBuilder extends Component {
     this.setState({ purchasable: sum > 0 });
   }
 
-  addFlavorHandler = type => {
+  addFlavorHandler = (type) => {
     const oldCount = this.state.flavors[type];
     const updatedCount = oldCount + 1;
     const updatedFlavors = {
-        ...this.state.flavors
-    }
+      ...this.state.flavors,
+    };
     updatedFlavors[type] = updatedCount;
     const priceAddition = FLAVOR_PRICES[type];
     const oldPrice = this.state.totalPrice;
-    const newPrice= oldPrice + priceAddition;
+    const newPrice = oldPrice + priceAddition;
     this.setState({
       totalPrice: newPrice,
-      flavors: updatedFlavors
+      flavors: updatedFlavors,
     });
     this.updatePurchaseState(updatedFlavors);
-  }
+  };
 
-  removeFlavorHandler = type => {
+  removeFlavorHandler = (type) => {
     const oldCount = this.state.flavors[type];
     if (oldCount <= 0) {
       return;
     }
     const updatedCount = oldCount - 1;
     const updatedFlavors = {
-        ...this.state.flavors
-    }
+      ...this.state.flavors,
+    };
     updatedFlavors[type] = updatedCount;
     const priceDeduction = FLAVOR_PRICES[type];
     const oldPrice = this.state.totalPrice;
-    const newPrice= oldPrice - priceDeduction;
+    const newPrice = oldPrice - priceDeduction;
     this.setState({
       totalPrice: newPrice,
-      flavors: updatedFlavors
+      flavors: updatedFlavors,
     });
     this.updatePurchaseState(updatedFlavors);
-  }
+  };
 
   purchaseHandler = () => {
     this.setState({ purchasing: true });
-  }
+  };
 
   purchaseCancelHandler = () => {
-    this.setState({ purchasing: false});
-  }
+    this.setState({ purchasing: false });
+  };
 
   purchaseContinueHandler = () => {
     // alert('You continue!');
     const queryParams = [];
-    for(let i in this.state.flavors) {
-      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.flavors[i]));
+    for (let i in this.state.flavors) {
+      queryParams.push(
+        encodeURIComponent(i) + "=" + encodeURIComponent(this.state.flavors[i])
+      );
     }
-    queryParams.push('price=' + this.state.totalPrice);
-    
-    const queryString = queryParams.join('&');
+    queryParams.push("price=" + this.state.totalPrice);
+
+    const queryString = queryParams.join("&");
     this.props.history.push({
-      pathname: '/checkout',
-      search: '?' + queryString
+      pathname: "/checkout",
+      search: "?" + queryString,
     });
-  }
+  };
 
   render() {
     const disableInfo = {
-      ...this.state.flavors
-    }
+      ...this.state.flavors,
+    };
     for (let key in disableInfo) {
-      disableInfo[key] = disableInfo[key] <= 0
+      disableInfo[key] = disableInfo[key] <= 0;
     }
 
     let orderSummary = null;
-    let icecream = this.state.error ? <p>Flavors couldn't be loaded!</p> : <Spinner />
+    let icecream = this.state.error ? (
+      <p>Flavors couldn't be loaded!</p>
+    ) : (
+      <Spinner />
+    );
 
-    if(this.state.flavors) {
-      icecream  = (
+    if (this.state.flavors) {
+      icecream = (
         <Aux>
           <IceCream flavors={this.state.flavors} />
           <BuildControls
@@ -137,20 +143,25 @@ class IceCreamBuilder extends Component {
           />
         </Aux>
       );
-      orderSummary = <OrderSummary 
-        flavors={this.state.flavors}
-        purchaseCancelled={this.purchaseCancelHandler}
-        purchaseContinued={this.purchaseContinueHandler}
-        price={this.state.totalPrice}
-      />
+      orderSummary = (
+        <OrderSummary
+          flavors={this.state.flavors}
+          purchaseCancelled={this.purchaseCancelHandler}
+          purchaseContinued={this.purchaseContinueHandler}
+          price={this.state.totalPrice}
+        />
+      );
     }
-    if(this.state.loading) {
+    if (this.state.loading) {
       orderSummary = <Spinner />;
     }
 
     return (
       <Aux>
-        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHandler}>
+        <Modal
+          show={this.state.purchasing}
+          modalClosed={this.purchaseCancelHandler}
+        >
           {orderSummary}
         </Modal>
         {icecream}
