@@ -7,6 +7,8 @@ import OrderSummary from "../../components/IceCream/OrderSummary/OrderSummary";
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
+import { connect } from "react-redux";
+import * as actionTypes from "../../store/actions";
 
 const FLAVOR_PRICES = {
   grape: 20,
@@ -22,7 +24,6 @@ class IceCreamBuilder extends Component {
   // }
 
   state = {
-    flavors: null,
     totalPrice: 20,
     purchasable: false,
     purchasing: false,
@@ -53,10 +54,10 @@ class IceCreamBuilder extends Component {
   }
 
   addFlavorHandler = (type) => {
-    const oldCount = this.state.flavors[type];
+    const oldCount = this.props.flvs[type];
     const updatedCount = oldCount + 1;
     const updatedFlavors = {
-      ...this.state.flavors,
+      ...this.props.flvs,
     };
     updatedFlavors[type] = updatedCount;
     const priceAddition = FLAVOR_PRICES[type];
@@ -70,13 +71,13 @@ class IceCreamBuilder extends Component {
   };
 
   removeFlavorHandler = (type) => {
-    const oldCount = this.state.flavors[type];
+    const oldCount = this.props.flvs[type];
     if (oldCount <= 0) {
       return;
     }
     const updatedCount = oldCount - 1;
     const updatedFlavors = {
-      ...this.state.flavors,
+      ...this.props.flvs,
     };
     updatedFlavors[type] = updatedCount;
     const priceDeduction = FLAVOR_PRICES[type];
@@ -100,9 +101,9 @@ class IceCreamBuilder extends Component {
   purchaseContinueHandler = () => {
     // alert('You continue!');
     const queryParams = [];
-    for (let i in this.state.flavors) {
+    for (let i in this.props.flvs) {
       queryParams.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(this.state.flavors[i])
+        encodeURIComponent(i) + "=" + encodeURIComponent(this.props.flvs[i])
       );
     }
     queryParams.push("price=" + this.state.totalPrice);
@@ -116,7 +117,7 @@ class IceCreamBuilder extends Component {
 
   render() {
     const disableInfo = {
-      ...this.state.flavors,
+      ...this.props.flvs,
     };
     for (let key in disableInfo) {
       disableInfo[key] = disableInfo[key] <= 0;
@@ -129,13 +130,13 @@ class IceCreamBuilder extends Component {
       <Spinner />
     );
 
-    if (this.state.flavors) {
+    if (this.props.flvs) {
       icecream = (
         <Aux>
-          <IceCream flavors={this.state.flavors} />
+          <IceCream flavors={this.props.flvs} />
           <BuildControls
-            flavorAdded={this.addFlavorHandler}
-            flavorRemoved={this.removeFlavorHandler}
+            flavorAdded={this.props.onFlavorAdded}
+            flavorRemoved={this.props.onFlavorRemovd}
             disabled={disableInfo}
             price={this.state.totalPrice}
             purchasable={this.state.purchasable}
@@ -145,7 +146,7 @@ class IceCreamBuilder extends Component {
       );
       orderSummary = (
         <OrderSummary
-          flavors={this.state.flavors}
+          flavors={this.props.flvs}
           purchaseCancelled={this.purchaseCancelHandler}
           purchaseContinued={this.purchaseContinueHandler}
           price={this.state.totalPrice}
@@ -170,4 +171,22 @@ class IceCreamBuilder extends Component {
   }
 }
 
-export default withErrorHandler(IceCreamBuilder, axios);
+const mapDispatchToProps = (state) => {
+  return {
+    flvs: state.flavors,
+  };
+};
+
+const mapStateToProps = (dispatch) => {
+  return {
+    onFlavorAdded: (flvName) =>
+      dispatch({ type: actionTypes.ADD_FLAVOR, flavorName: flvName }),
+    onFlavorRemovd: (flvName) =>
+      dispatch({ type: actionTypes.REMOVE_FLAVOR, flavorName: flvName }),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(IceCreamBuilder, axios));
