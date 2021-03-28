@@ -1,10 +1,9 @@
 ## Ice Cream App?
 
+```
+Current: Redux
+```
 
 ```
-Current: Reviews
-```
-
-```
-Up next: Redux & Authentication?
+Up next: Authentication?
 ```
