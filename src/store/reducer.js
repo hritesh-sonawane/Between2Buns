@@ -10,6 +10,13 @@ const initialState = {
   totalPrice: 20,
 };
 
+const FLAVOR_PRICES = {
+  grape: 20,
+  unicorn: 20,
+  blackcurrent: 15,
+  strawberry: 15,
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_FLAVOR:
@@ -19,6 +26,7 @@ const reducer = (state = initialState, action) => {
           ...state.flavors,
           [action.flavorName]: state.flavors[action.flavorName] + 1, // payload of action
         },
+        totalPrice: state.totalPrice + FLAVOR_PRICES[action.flavorName],
       };
     case actionTypes.REMOVE_FLAVOR:
       return {
@@ -27,6 +35,7 @@ const reducer = (state = initialState, action) => {
           ...state.flavors,
           [action.flavorName]: state.flavors[action.flavorName] - 1, // payload of action
         },
+        totalPrice: state.totalPrice - FLAVOR_PRICES[action.flavorName],
       };
     default:
       return state;

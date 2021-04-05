@@ -10,13 +10,6 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import { connect } from "react-redux";
 import * as actionTypes from "../../store/actions";
 
-const FLAVOR_PRICES = {
-  grape: 20,
-  unicorn: 20,
-  blackcurrent: 15,
-  strawberry: 15,
-};
-
 class IceCreamBuilder extends Component {
   // constructor(props) {
   //   super(props);
@@ -24,8 +17,6 @@ class IceCreamBuilder extends Component {
   // }
 
   state = {
-    totalPrice: 20,
-    purchasable: false,
     purchasing: false,
     loading: false,
     error: false,
@@ -53,43 +44,6 @@ class IceCreamBuilder extends Component {
     this.setState({ purchasable: sum > 0 });
   }
 
-  addFlavorHandler = (type) => {
-    const oldCount = this.props.flvs[type];
-    const updatedCount = oldCount + 1;
-    const updatedFlavors = {
-      ...this.props.flvs,
-    };
-    updatedFlavors[type] = updatedCount;
-    const priceAddition = FLAVOR_PRICES[type];
-    const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice + priceAddition;
-    this.setState({
-      totalPrice: newPrice,
-      flavors: updatedFlavors,
-    });
-    this.updatePurchaseState(updatedFlavors);
-  };
-
-  removeFlavorHandler = (type) => {
-    const oldCount = this.props.flvs[type];
-    if (oldCount <= 0) {
-      return;
-    }
-    const updatedCount = oldCount - 1;
-    const updatedFlavors = {
-      ...this.props.flvs,
-    };
-    updatedFlavors[type] = updatedCount;
-    const priceDeduction = FLAVOR_PRICES[type];
-    const oldPrice = this.state.totalPrice;
-    const newPrice = oldPrice - priceDeduction;
-    this.setState({
-      totalPrice: newPrice,
-      flavors: updatedFlavors,
-    });
-    this.updatePurchaseState(updatedFlavors);
-  };
-
   purchaseHandler = () => {
     this.setState({ purchasing: true });
   };
@@ -99,20 +53,7 @@ class IceCreamBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    // alert('You continue!');
-    const queryParams = [];
-    for (let i in this.props.flvs) {
-      queryParams.push(
-        encodeURIComponent(i) + "=" + encodeURIComponent(this.props.flvs[i])
-      );
-    }
-    queryParams.push("price=" + this.state.totalPrice);
-
-    const queryString = queryParams.join("&");
-    this.props.history.push({
-      pathname: "/checkout",
-      search: "?" + queryString,
-    });
+    this.props.history.push("./checkout");
   };
 
   render() {
@@ -138,8 +79,8 @@ class IceCreamBuilder extends Component {
             flavorAdded={this.props.onFlavorAdded}
             flavorRemoved={this.props.onFlavorRemovd}
             disabled={disableInfo}
-            price={this.state.totalPrice}
-            purchasable={this.state.purchasable}
+            price={this.props.price}
+            purchasable={this.updatePurchaseState(this.props.flvs)}
             ordered={this.purchaseHandler}
           />
         </Aux>
@@ -149,7 +90,7 @@ class IceCreamBuilder extends Component {
           flavors={this.props.flvs}
           purchaseCancelled={this.purchaseCancelHandler}
           purchaseContinued={this.purchaseContinueHandler}
-          price={this.state.totalPrice}
+          price={this.props.price}
         />
       );
     }
@@ -174,6 +115,7 @@ class IceCreamBuilder extends Component {
 const mapDispatchToProps = (state) => {
   return {
     flvs: state.flavors,
+    price: state.totalPrice,
   };
 };
 
