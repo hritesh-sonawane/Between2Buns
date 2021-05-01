@@ -1,31 +1,42 @@
-import React from 'react';
-import classes from './Order.css';
+import React from "react";
 
-const order = props => {
-  const flavors = [];
+import classes from "./Order.css";
 
-  for (let flavorName in props.flavors) {
-    flavors.push({
-      name: flavorName,
-      amount: props.flavors[flavorName]
+const order = (props) => {
+  const ingredients = [];
+
+  for (let ingredientName in props.ingredients) {
+    ingredients.push({
+      name: ingredientName,
+      amount: props.ingredients[ingredientName],
     });
   }
 
-  // map() method creates a new array with the results of calling a function for every array element
-  const flavorOutput = flavors.map(flv => {
-    return  <span className={classes.FlavorBox}
-              key={flv.name}
-            >
-              {flv.name} ({flv.amount})
-            </span>;
-  })
+  const ingredientOutput = ingredients.map((ig) => {
+    return (
+      <span
+        style={{
+          textTransform: "capitalize",
+          display: "inline-block",
+          margin: "0 8px",
+          border: "1px solid #ccc",
+          padding: "5px",
+        }}
+        key={ig.name}
+      >
+        {ig.name} ({ig.amount})
+      </span>
+    );
+  });
 
   return (
     <div className={classes.Order}>
-      <p>Flavors: {flavorOutput}</p>
-      <p>Price: <strong>₹{Number.parseFloat(props.price).toFixed(2)}</strong></p>
+      <p>Ingredients: {ingredientOutput}</p>
+      <p>
+        Price: <strong>USD {Number.parseFloat(props.price).toFixed(2)}</strong>
+      </p>
     </div>
   );
-}
+};
 
 export default order;

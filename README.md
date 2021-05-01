@@ -1,9 +1,13 @@
-## Ice Cream App?
+# Burger Builder App
 
-```
-Current: Redux
-```
+_Maximilian Schwarzmüller's React Course Final Project_
 
-```
-Up next: Authentication?
-```
+Modules covered
+
+- JSX
+- CSS Modules
+- React Forms
+- Hooks
+- Animations
+- Redux
+- Authentication
